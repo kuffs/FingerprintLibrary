@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:background="?android:colorBackground"
+              android:gravity="center_horizontal"
+              android:orientation="vertical"
+              android:padding="20dp">
+
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_horizontal"
+		android:text="@string/confirmFingerprint"
+		android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+	<ImageView
+		android:id="@+id/imgFingerprint"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_margin="20dp"
+		android:contentDescription="@string/description_fingerprint_icon"
+		android:src="@drawable/ic_fp_40px"/>
+
+	<TextSwitcher
+		android:id="@+id/message"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content">
+
+		<!--<TextView-->
+			<!--android:layout_width="wrap_content"-->
+			<!--android:layout_height="wrap_content"-->
+			<!--android:layout_gravity="center_horizontal"-->
+			<!--android:text="@string/touchSensor"-->
+			<!--android:textAppearance="?android:attr/textAppearanceMedium"/>-->
+
+	</TextSwitcher>
+
+
+
+</LinearLayout>
+

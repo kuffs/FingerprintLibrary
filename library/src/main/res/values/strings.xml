@@ -1,0 +1,13 @@
+<resources>
+	<string name="app_name">Fingerprint</string>
+	<string name="confirmFingerprint">Confirm Fingerprint</string>
+	<string name="touchSensor">Touch sensor</string>
+	<string name="description_fingerprint_icon">Fingerprint Icon</string>
+	<string name="KeyGuardDisabled">Keyguard is not enabled</string>
+	<string name="AndroidMRequired">At least Android M required</string>
+	<string name="NoHardware">Fingerprint sensor not detected</string>
+	<string name="NoEnrolledPrints">No fingerprints have been enrolled</string>
+	<string name="FingerprintNotRecognised">Fingerprint not recognised</string>
+	<string name="FingerprintAccepted">Fingerprint Accepted</string>
+	<string name="FingerprintRejected">Fingerprint Rejected</string>
+</resources>
