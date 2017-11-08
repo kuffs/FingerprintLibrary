@@ -1,4 +1,15 @@
 # FingerprintLibrary
 
-[![Release](https://jitpack.io/v/User/Repo.svg)]
-(https://jitpack.io/#User/Repo)
+Add jitpack in project gradle
+
+    allprojects {
+        repositories {
+            jcenter()
+            mavenCentral()
+            maven { url "https://jitpack.io" }
+        }
+    }
+
+then import library in module gradle.
+
+    implementation 'com.github.kuffs:FingerprintLibrary:0.1.1'
