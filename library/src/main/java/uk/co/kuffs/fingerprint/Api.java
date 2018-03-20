@@ -90,6 +90,43 @@ public class Api {
         return api;
     }
 
+    public static void clearApi(Context c, String alias) {
+
+        Api api = new Api();
+        api._alias = alias;
+        api.c = c;
+
+        try {
+            api._keyStore = KeyStore.getInstance("AndroidKeyStore");
+            api._keyStore.load(null);
+        } catch (NoSuchAlgorithmException | CertificateException | IOException | KeyStoreException e) {
+            throw new RuntimeException("Failed to get an instance of KeyStore", e);
+        }
+
+        try {
+            api._cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding");
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+            throw new RuntimeException("Failed to get an instance of Cipher", e);
+        }
+
+        KeyguardManager keyguardManager = c.getSystemService(KeyguardManager.class);
+        api._fingerprintManager = c.getSystemService(FingerprintManager.class);
+
+        if (!keyguardManager.isKeyguardSecure()) {
+            throw new RuntimeException("Secure lock screen hasn't been set up.\nGo to 'Settings -> Security -> Fingerprint' to set up a fingerprint");
+        }
+
+        try {
+            if (api.keyExists()) {
+                api._keyStore.deleteEntry(alias);
+            }
+        } catch (KeyStoreException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+    }
+
     public boolean isFingerprintHardwareDetected() {
         return _fingerprintManager.isHardwareDetected();
     }
@@ -237,12 +274,16 @@ public class Api {
         try {
             KeyPairGenerator kpg = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA, "AndroidKeyStore");
 
-            kpg.initialize(new KeyGenParameterSpec.Builder(_alias, KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
+            KeyGenParameterSpec.Builder builder = new KeyGenParameterSpec.Builder(_alias, KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
                     .setDigests(KeyProperties.DIGEST_SHA256, KeyProperties.DIGEST_SHA512)
                     .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_OAEP)
-                    .setUserAuthenticationRequired(true)
-                    .build());
+                    .setUserAuthenticationRequired(true);
 
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                builder.setInvalidatedByBiometricEnrollment(true);
+            }
+
+            kpg.initialize(builder.build());
             kpg.generateKeyPair();
 
         } catch (NoSuchProviderException | NoSuchAlgorithmException | InvalidAlgorithmParameterException e) {
